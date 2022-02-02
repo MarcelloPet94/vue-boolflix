@@ -6,7 +6,10 @@
 
       <div class="ricerca_container">
         <ul v-for="film in tuttiFilmData" :key="film.id">
-          <li>{{film.title}}</li>
+          <li>Titolo: {{film.title}}</li>
+          <li>Titolo originale: {{film.original_title}}</li>
+          <li>Lingua: {{film.original_language}}</li>
+          <li>Voto: {{film.vote_count}}</li>
         </ul>
       </div>
    </div>
@@ -63,5 +66,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .ricerca_container ul
+  {
+    padding: 16px;
+    border-bottom: 1px solid #010101;
+
+    li {
+      list-style-type: none;
+    }
+  }
 
 </style>
