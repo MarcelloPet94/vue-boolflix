@@ -30,14 +30,14 @@ export default {
   },
 
   created() {
-    this.listaFilm()
+    //this.listaFilm()
   },
 
 
   methods:{
     riassegnaDatoRicerca(inputRicerca){
-      this.titoloFilm = inputRicerca
-      console.log(this.titoloFilm)
+      this.titoloFilm = inputRicerca    
+      this.listaFilm()
     },
 
     // filtravo questo (appunto x domanda)
@@ -45,7 +45,7 @@ export default {
       axios.get('https://api.themoviedb.org/3/search/movie' , {
         params: {
           api_key : 'b1d73429cc8d9b6cc6dd4b3887ce83df',
-          query : 'erc'
+          query : this.titoloFilm
         }
       })
       .then((response) => {
