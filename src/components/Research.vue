@@ -5,13 +5,38 @@
       />
 
       <div class="ricerca_container">
-        <ul v-for="film in tuttiFilmData" :key="film.id">
-          <li>Titolo: {{film.title}}</li>
-          <li>Titolo originale: {{film.original_title}}</li>
-          <li>Lingua: {{film.original_language}}</li>
-          <li>Voto: {{film.vote_count}}</li>
-        </ul>
+        <div class="box" v-for="film in tuttiFilmData" :key="film.id">
+          <ul>
+            <li>Titolo: {{film.title}}</li>
+            <li>Titolo originale: {{film.original_title}}</li>
+
+            <li v-if="film.original_language.toLowerCase() == 'it'"><img src='../assets/img/italy.png'></li>
+            <li v-else-if="film.original_language.toLowerCase() == 'fr'"><img src='../assets/img/france.png'></li>
+            <li v-else-if="film.original_language.toLowerCase() == 'de'"><img src='../assets/img/germany.png'></li>
+            <li v-else-if="film.original_language.toLowerCase() == 'en'"><img src='../assets/img/united-kingdom.png'></li>
+
+            <li v-else>{{film.original_language}}</li>
+            <li>Voto: {{film.vote_count}}</li>
+          </ul>
+        </div>
+
+        <div class="box serie" v-for="serie in tuttiSerieData" :key="serie.id">
+          <ul>
+            <li>Titolo: {{serie.name}}</li>
+            <li>Titolo originale: {{serie.original_name}}</li>
+
+            <li v-if="serie.original_language.toLowerCase() == 'it'"><img src='../assets/img/italy.png'></li>
+            <li v-else-if="serie.original_language.toLowerCase() == 'fr'"><img src='../assets/img/france.png'></li>
+            <li v-else-if="serie.original_language.toLowerCase() == 'de'"><img src='../assets/img/germany.png'></li>
+            <li v-else-if="serie.original_language.toLowerCase() == 'en'"><img src='../assets/img/united-kingdom.png'></li>
+
+            <li v-else>{{serie.original_language}}</li>
+            <li>Voto: {{serie.vote_count}}</li>
+          </ul>
+        </div>        
+
       </div>
+      
    </div>
 </template>
 
@@ -27,52 +52,90 @@ export default {
 
   data(){
     return{
-      titoloFilm : '',
-      tuttiFilmData : []
+      urlMovie: 'https://api.themoviedb.org/3/search/movie',
+      urlTv: 'https://api.themoviedb.org/3/search/tv',
+      titolo: '',
+      tuttiFilmData : [],
+      tuttiSerieData: []
     }
   },
 
-  created() {
-    //this.listaFilm()
-  },
-
-
   methods:{
     riassegnaDatoRicerca(inputRicerca){
-      this.titoloFilm = inputRicerca    
+      this.titolo = inputRicerca  
       this.listaFilm()
+      this.listaTv()
     },
 
-    // filtravo questo (appunto x domanda)
+
     listaFilm(){
-      axios.get('https://api.themoviedb.org/3/search/movie' , {
+      axios.get(this.urlMovie , {
         params: {
           api_key : 'b1d73429cc8d9b6cc6dd4b3887ce83df',
-          query : this.titoloFilm
+          query : this.titolo
         }
       })
       .then((response) => {
+        console.log('trova film')
         this.tuttiFilmData = response.data.results  
-        console.log(response.data.results);
+        console.log(this.tuttiFilmData[1]);
+        
       })
       .catch(function (error) {
         console.log(error);
       });  
-    }
+    },
+
+    listaTv(){
+      axios.get(this.urlTv , {
+        params: {
+          api_key : 'b1d73429cc8d9b6cc6dd4b3887ce83df',
+          query : this.titolo
+        }
+      })
+      .then((response) => {
+        console.log('trova serie')
+        this.tuttiSerieData= response.data.results  
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });  
+    }    
   }
 }
-
 
 </script>
 
 <style scoped lang="scss">
-  .ricerca_container ul
+  .ricerca_container 
   {
-    padding: 16px;
-    border-bottom: 1px solid #010101;
+    display: flex;
+    flex-wrap: wrap;
 
-    li {
-      list-style-type: none;
+    .box
+    {
+      width: 30%;
+      min-height: 200px;
+      padding: 16px;
+      background-color: rgb(206, 255, 232);
+      margin: 8px;
+    
+      li {
+        list-style-type: none;
+        line-height: 24px;
+
+        img
+        {
+          width: 16px;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .serie
+    {
+      background-color: rgb(255, 222, 206);
     }
   }
 
