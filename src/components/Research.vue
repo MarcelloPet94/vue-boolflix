@@ -13,7 +13,7 @@
             <p>Titolo originale: {{film.original_title}}</p>          
           <ul>
             <li><img :src="printFlag( film.original_language )"></li>
-            <li>Voto:  {{ gestioneVoto( film.vote_average ) }} </li>
+            <li v-html="gestioneVoto( film.vote_average )">Voto: {{gestioneVoto( film.vote_average )}} </li>
           </ul>
         </div>
 
@@ -25,7 +25,7 @@
             <p>Titolo originale: {{serie.original_name}}</p>
           <ul>
             <li><img :src="printFlag( serie.original_language )"></li>
-            <li>Voto: {{ gestioneVoto( serie.vote_average ) }} </li>
+            <li v-html="gestioneVoto( serie.vote_average )">Voto: {{gestioneVoto( serie.vote_average )}} </li>
           </ul>
         </div>        
       </div>
@@ -51,6 +51,7 @@ export default {
       tuttiFilmData : [],
       tuttiSerieData: [],
       validFlags:['it','de','en','fr'],
+      simboloStella: '&#9733;'
     }
   },
 
@@ -84,14 +85,16 @@ export default {
 
     gestioneVoto( voto )
     {
+      if(voto == 0) { return ' '}
       let nVoti = parseInt(voto / 2)
       console.log('voti ricevuti: ' + nVoti)
-      let vuota = ''
-      for(let n = 0; n <= nVoti; n++)
+      let stelle = ''
+      for(let n = 0; n < nVoti; n++)
       {
-           vuota += ' * ';
+           stelle += this.simboloStella + ' ';
       }
-      return vuota
+      
+      return stelle
       
     },
 
