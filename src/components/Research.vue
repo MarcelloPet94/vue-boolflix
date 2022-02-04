@@ -1,5 +1,5 @@
 <template>
-  <div>
+   <div>
       <SearchComp
       @ricercaFilm = "riassegnaDatoRicerca"
       />
@@ -9,28 +9,26 @@
           <div class="cover_container">
               <img :src="ottieniImmagine( film.poster_path )" alt="No img">
           </div>
+            <h2>{{film.title}}</h2>
+            <p>Titolo originale: {{film.original_title}}</p>          
           <ul>
-            <li>Titolo: {{film.title}}</li>
-            <li>Titolo originale: {{film.original_title}}</li>
-
             <li><img :src="printFlag( film.original_language )"></li>
-            <li>Voto: {{parseInt(film.vote_average)}}</li>
+            <li>Voto:  {{ gestioneVoto( film.vote_average ) }} </li>
           </ul>
         </div>
 
-        <div class="box serie" v-for="serie in tuttiSerieData" :key="serie.id">
+        <div class="box" v-for="serie in tuttiSerieData" :key="serie.id">
           <div class="cover_container">
             <img :src="ottieniImmagine( serie.poster_path )" alt="No img">
           </div>
+            <h3>{{serie.name}} <span class="tv">(Serie TV)</span></h3>
+            <p>Titolo originale: {{serie.original_name}}</p>
           <ul>
-            <li>Titolo: {{serie.name}}</li>
-            <li>Titolo originale: {{serie.original_name}}</li>
             <li><img :src="printFlag( serie.original_language )"></li>
-            <li>Voto: {{parseInt(serie.vote_average)}}</li>
+            <li>Voto: {{ gestioneVoto( serie.vote_average ) }} </li>
           </ul>
         </div>        
       </div>
-      
    </div>
 </template>
 
@@ -56,20 +54,11 @@ export default {
     }
   },
 
-  methods:{
-    riassegnaDatoRicerca(inputRicerca){
-      this.titolo = inputRicerca  
-      this.listaFilm()
-      this.listaTv()
-    },
-
-    printFlag( bandiera )
-    {
-        if( this.validFlags.includes( bandiera.toLowerCase() ) )
-        {
-            return require('../assets/img/' + bandiera + '.png')
-        }
-
+    methods:{
+      riassegnaDatoRicerca(inputRicerca){
+        this.titolo = inputRicerca  
+        this.listaFilm()
+        this.listaTv()
     },
 
     ottieniImmagine( immagine )
@@ -82,6 +71,28 @@ export default {
       {
         return 'https://fiscalform.it/wp-content/themes/consultix/images/no-image-found-360x260.png'
       }
+    },
+
+    printFlag( bandiera )
+    {
+        if( this.validFlags.includes( bandiera.toLowerCase() ) )
+        {
+            return require('../assets/img/' + bandiera + '.png')
+        }
+
+    },
+
+    gestioneVoto( voto )
+    {
+      let nVoti = parseInt(voto / 2)
+      console.log('voti ricevuti: ' + nVoti)
+      let vuota = ''
+      for(let n = 0; n <= nVoti; n++)
+      {
+           vuota += ' * ';
+      }
+      return vuota
+      
     },
 
     listaFilm(){
@@ -144,7 +155,6 @@ export default {
       width: 30%;
       min-height: 200px;
       padding: 16px;
-      background-color: rgb(206, 255, 232);
     
       li {
         list-style-type: none;
@@ -157,11 +167,12 @@ export default {
         }
       }
     }
-
-    .serie
-    {
-      background-color: rgb(255, 222, 206);
-    }
   }
+
+.tv
+{
+  color: gray;
+  margin-left: 8px;
+}
 
 </style>
