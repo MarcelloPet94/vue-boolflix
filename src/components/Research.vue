@@ -6,35 +6,29 @@
 
       <div class="ricerca_container">
         <div class="box" v-for="film in tuttiFilmData" :key="film.id">
+          <div class="cover_container">
+              <img :src="ottieniImmagine( film.poster_path )" alt="No img">
+          </div>
           <ul>
             <li>Titolo: {{film.title}}</li>
             <li>Titolo originale: {{film.original_title}}</li>
 
-            <li v-if="film.original_language.toLowerCase() == 'it'"><img src='../assets/img/italy.png'></li>
-            <li v-else-if="film.original_language.toLowerCase() == 'fr'"><img src='../assets/img/france.png'></li>
-            <li v-else-if="film.original_language.toLowerCase() == 'de'"><img src='../assets/img/germany.png'></li>
-            <li v-else-if="film.original_language.toLowerCase() == 'en'"><img src='../assets/img/united-kingdom.png'></li>
-
-            <li v-else>{{film.original_language}}</li>
-            <li>Voto: {{film.vote_count}}</li>
+            <li><img :src="printFlag( film.original_language )"></li>
+            <li>Voto: {{parseInt(film.vote_average)}}</li>
           </ul>
         </div>
 
         <div class="box serie" v-for="serie in tuttiSerieData" :key="serie.id">
+          <div class="cover_container">
+            <img :src="ottieniImmagine( serie.poster_path )" alt="No img">
+          </div>
           <ul>
             <li>Titolo: {{serie.name}}</li>
             <li>Titolo originale: {{serie.original_name}}</li>
-
-            <li v-if="serie.original_language.toLowerCase() == 'it'"><img src='../assets/img/italy.png'></li>
-            <li v-else-if="serie.original_language.toLowerCase() == 'fr'"><img src='../assets/img/france.png'></li>
-            <li v-else-if="serie.original_language.toLowerCase() == 'de'"><img src='../assets/img/germany.png'></li>
-            <li v-else-if="serie.original_language.toLowerCase() == 'en'"><img src='../assets/img/united-kingdom.png'></li>
-
-            <li v-else>{{serie.original_language}}</li>
-            <li>Voto: {{serie.vote_count}}</li>
+            <li><img :src="printFlag( serie.original_language )"></li>
+            <li>Voto: {{parseInt(serie.vote_average)}}</li>
           </ul>
         </div>        
-
       </div>
       
    </div>
@@ -54,9 +48,11 @@ export default {
     return{
       urlMovie: 'https://api.themoviedb.org/3/search/movie',
       urlTv: 'https://api.themoviedb.org/3/search/tv',
+      serverImg: 'https://image.tmdb.org/t/p/',
       titolo: '',
       tuttiFilmData : [],
-      tuttiSerieData: []
+      tuttiSerieData: [],
+      validFlags:['it','de','en','fr'],
     }
   },
 
@@ -67,6 +63,26 @@ export default {
       this.listaTv()
     },
 
+    printFlag( bandiera )
+    {
+        if( this.validFlags.includes( bandiera.toLowerCase() ) )
+        {
+            return require('../assets/img/' + bandiera + '.png')
+        }
+
+    },
+
+    ottieniImmagine( immagine )
+    {
+      if(immagine)
+      {
+        return this.serverImg + 'w342' + immagine
+      }
+      else
+      {
+        return 'https://fiscalform.it/wp-content/themes/consultix/images/no-image-found-360x260.png'
+      }
+    },
 
     listaFilm(){
       axios.get(this.urlMovie , {
@@ -113,13 +129,22 @@ export default {
     display: flex;
     flex-wrap: wrap;
 
+  .cover_container
+  {
+    height: 500px;
+    overflow: hidden;
+    
+    img
+    {
+      width: 100%;
+    }
+  }
     .box
     {
       width: 30%;
       min-height: 200px;
       padding: 16px;
       background-color: rgb(206, 255, 232);
-      margin: 8px;
     
       li {
         list-style-type: none;
