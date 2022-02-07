@@ -43,6 +43,7 @@ export default {
   padding: 24px;
   background-color: #010101;
   border-bottom: 1px solid lightgray;
+  z-index: 1;
 
   h2
   {
