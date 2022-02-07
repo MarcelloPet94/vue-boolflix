@@ -1,32 +1,26 @@
 <template>
-   <div>
+<div class="ricerca_container">
+  
+  <Box v-for="film in passafilm" :key="film.id"
+  
+  :poster="ottieniImmagine( film.poster_path )"
+  :titolo="film.title"
+  :titoriginale="film.original_title"
+  :bandiera="printFlag( film.original_language )"
+  :valutazione="gestioneVoto( film.vote_average )"
 
+  />
 
-      <div class="ricerca_container">
-        
-        <Box v-for="film in passafilm" :key="film.id"
-        
-        :poster="ottieniImmagine( film.poster_path )"
-        :titolo="film.title"
-        :titoriginale="film.original_title"
-        :bandiera="printFlag( film.original_language )"
-        :valutazione="gestioneVoto( film.vote_average )"
+  <Box v-for="serie in passaserie" :key="serie.id"
+  
+  :poster="ottieniImmagine( serie.poster_path )"
+  :titolo="serie.name"
+  :titoriginale="serie.original_name"
+  :bandiera="printFlag( serie.original_language )"
+  :valutazione="gestioneVoto( serie.vote_average )"
 
-        />
-
-        <Box v-for="serie in passaserie" :key="serie.id"
-        
-        :poster="ottieniImmagine( serie.poster_path )"
-        :titolo="serie.name"
-        :titoriginale="serie.original_name"
-        :bandiera="printFlag( serie.original_language )"
-        :valutazione="gestioneVoto( serie.vote_average )"
-
-        />
-     
-      </div>
-      
-   </div>
+  />
+</div>
 </template>
 
 <script>
@@ -98,12 +92,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .ricerca_container 
-  {
-    display: flex;
-    flex-wrap: wrap;
+.ricerca_container 
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
-  }
+}
 
 .tv
 {

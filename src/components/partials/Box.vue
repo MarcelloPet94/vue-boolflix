@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
   .cover_container
   {
-    height: 500px;
+    height: 80vh;
     overflow: hidden;
     
     img
