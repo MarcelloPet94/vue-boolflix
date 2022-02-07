@@ -45,6 +45,7 @@ export default {
 
   data(){
     return{
+      serverImg: 'https://image.tmdb.org/t/p/',
       validFlags:['it','de','en','fr'], // da modificare ciclando oggetto
       simboloStella: '&#9733;'
     }

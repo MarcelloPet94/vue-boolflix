@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Headercomp @passaDaHeader = "assegnaValoreDaHeader"/>
+    <Headercomp @arrivaDaHeader = "assegnaValoreDaHeader"/>
     <Main  
     :passaserie = tuttiSerieData
     :passafilm = tuttiFilmData
@@ -24,7 +24,6 @@ export default {
     return{
       urlMovie: 'https://api.themoviedb.org/3/search/movie',
       urlTv: 'https://api.themoviedb.org/3/search/tv',
-      serverImg: 'https://image.tmdb.org/t/p/',
       appValore: '',
       tuttiFilmData : [],
       tuttiSerieData: [],      
@@ -34,6 +33,7 @@ export default {
   methods: {
     assegnaValoreDaHeader( daHeader )
     {
+      console.log('gira')
       this.appValore = daHeader
       this.listaFilm()
       this.listaTv()
