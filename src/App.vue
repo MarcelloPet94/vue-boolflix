@@ -1,16 +1,81 @@
 <template>
   <div id="app">
-    <research/>
+    <Headercomp @passaDaHeader = "assegnaValoreDaHeader"/>
+    <Main :valoreprops = appValore />
   </div>
 </template>
 
 <script>
-import Research from './components/Research.vue'
+import axios from 'axios'
+import Headercomp from './components/Headercomp.vue'
+import Main from './components/Main.vue'
 
 export default {
   name: 'App',
   components: {
-    Research
+    Headercomp,
+    Main
+  },
+
+  data(){
+    return{
+      appValore: "",
+      urlMovie: 'https://api.themoviedb.org/3/search/movie',
+      urlTv: 'https://api.themoviedb.org/3/search/tv',
+      serverImg: 'https://image.tmdb.org/t/p/',
+      titolo: '',
+      tuttiFilmData : [],
+      tuttiSerieData: [],      
+    }
+  },
+
+  methods: {
+    assegnaValoreDaHeader( daHeader )
+    {
+      this.appValore = daHeader
+    },
+
+    riassegnaDatoRicerca(inputRicerca){
+      this.titolo = inputRicerca  
+      this.listaFilm()
+      this.listaTv()
+    },
+
+    listaFilm(){
+      axios.get(this.urlMovie , {
+        params: {
+          api_key : 'b1d73429cc8d9b6cc6dd4b3887ce83df',
+          query : this.titolo
+        }
+      })
+      .then((response) => {
+        console.log('trova film')
+        this.tuttiFilmData = response.data.results  
+        console.log(this.tuttiFilmData[1]);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });  
+    },
+
+    listaTv(){
+      axios.get(this.urlTv , {
+        params: {
+          api_key : 'b1d73429cc8d9b6cc6dd4b3887ce83df',
+          query : this.titolo
+        }
+      })
+      .then((response) => {
+        console.log('trova serie')
+        this.tuttiSerieData= response.data.results  
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });  
+    }     
+
   }
 }
 </script>
