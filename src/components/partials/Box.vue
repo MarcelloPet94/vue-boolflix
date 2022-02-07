@@ -32,6 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/style/global.scss';
 
 *
 {
@@ -41,6 +42,7 @@ export default {
 .box
 {
   position: relative;
+  top: $heightHeader;
   z-index: 0;
 }
 .cover_container
@@ -73,7 +75,6 @@ export default {
 
 .info_thumb
 {
-  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -82,6 +83,8 @@ export default {
   padding: 16px;  
   background-color: #010101;
   border: 1px solid #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
 
   .content_info
   {
@@ -93,6 +96,7 @@ export default {
 .box:hover .info_thumb
 {
   display: block;
+  opacity: 1;
 }
 
 .vote
